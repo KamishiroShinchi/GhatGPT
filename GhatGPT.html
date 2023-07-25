@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GhatGPT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 20px;
+      background-color: #fff;
+    }
+    
+    .message {
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    
+    .user-message {
+      color: #007bff;
+    }
+    
+    .bot-message {
+      color: #000;
+    }
+    
+    .typing-indicator {
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .typing-indicator:before,
+    .typing-indicator:after {
+      content: "";
+      margin-right: 5px;
+      width: 5px;
+      height: 5px;
+      background-color: #000;
+      border-radius: 50%;
+      animation: typing-indicator 1s infinite;
+    }
+    
+    @keyframes typing-indicator {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+    
+    .input-container {
+      margin-top: 20px;
+      display: flex;
+    }
+    
+    .user-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    
+    .send-button {
+      padding: 10px 20px;
+      margin-left: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .send-button:hover {
+      background-color: #0069d9;
+    }
+  </style>
+  <script>
+    function sendMessage() {
+      var userInput = document.getElementById("userInput");
+      var userMessage = userInput.value.trim();
+      if (userMessage === "") return;
+      
+      addMessage(userMessage, "thinking...");
+      simulateBotTyping(userMessage);
+      
+      userInput.value = "";
+    }
+    
+    function addMessage(userMsg, botMsg) {
+      var chatBox = document.getElementById("chatBox");
+      var messageDiv = document.createElement("div");
+      messageDiv.className = "message";
+      
+      var userMsgDiv = document.createElement("div");
+      userMsgDiv.className = "user-message";
+      userMsgDiv.innerText = userMsg;
+      
+      var botMsgDiv = document.createElement("div");
+      botMsgDiv.className = "bot-message";
+      botMsgDiv.innerText = botMsg;
+      
+      messageDiv.appendChild(userMsgDiv);
+      messageDiv.appendChild(botMsgDiv);
+      
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    
+    function simulateBotTyping(userMsg) {
+      setTimeout(function() {
+        var botMsg = "您提的问题涉及敏感词汇，请修改后再试！";
+        displayBotTyping(botMsg);
+      }, 1000);
+    }
+    
+    function displayBotTyping(botMsg) {
+      var chatBox = document.getElementById("chatBox");
+      var typingIndicator = document.createElement("div");
+      typingIndicator.className = "typing-indicator";
+      typingIndicator.innerText = "Bot正在思考...";
+      
+      var botMsgDiv = document.createElement("div");
+      botMsgDiv.className = "bot-message";
+      botMsgDiv.style.animation = "none";
+      
+      var i = 0;
+      var typingEffect = setInterval(function() {
+        if (i <= botMsg.length) {
+          botMsgDiv.innerText = botMsg.slice(0, i);
+          i++;
+        } else {
+          clearInterval(typingEffect);
+          chatBox.removeChild(typingIndicator);
+          addMessage("", botMsg);
+        }
+      }, 50);
+      
+      var messageDiv = document.createElement("div");
+      messageDiv.className = "message";
+      messageDiv.appendChild(typingIndicator);
+      messageDiv.appendChild(botMsgDiv);
+      
+      chatBox.appendChild(messageDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>GhatGPT</h1>
+    
+    <div id="chatBox" style="height: 300px; overflow-y: scroll;">
+      <!-- Bot introduction message -->
+      <div class="message">
+        <div class="bot-message">
+          Bot: 欢迎使用GhatGPT！请输入您的问题或消息。
+        </div>
+      </div>
+</div>
+    <div class="input-container">
+      <input type="text" id="userInput" class="user-input" placeholder="输入消息...">
+      <button class="send-button" onclick="sendMessage()">发送</button>
+    </div>
+  </div>
+</body>
+</html>
+    
+    <div class="
